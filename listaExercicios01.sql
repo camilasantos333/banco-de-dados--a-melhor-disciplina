@@ -66,3 +66,9 @@ LEFT JOIN livros l ON a.id = l.autor_id
 GROUP BY a.nome
 ORDER BY numero_livros DESC
 LIMIT 1;
+
+SELECT produto, SUM(receita) as receita_total
+FROM vendas
+GROUP BY produto
+ORDER BY receita_total ASC
+LIMIT 1;
