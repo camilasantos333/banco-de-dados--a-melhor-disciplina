@@ -43,3 +43,7 @@ HAVING numero_livros > 2;
 SELECT l.titulo, a.nome
 FROM livros l
 JOIN autores a ON l.autor_id = a.id;
+
+SELECT alunos.nome, matriculas.curso
+FROM alunos
+LEFT JOIN matriculas ON alunos.id = matriculas.aluno_id;
