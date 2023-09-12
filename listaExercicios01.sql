@@ -47,3 +47,7 @@ JOIN autores a ON l.autor_id = a.id;
 SELECT alunos.nome, matriculas.curso
 FROM alunos
 LEFT JOIN matriculas ON alunos.id = matriculas.aluno_id;
+
+SELECT a.nome, l.titulo
+FROM autores a
+LEFT JOIN livros l ON a.id = l.autor_id;
