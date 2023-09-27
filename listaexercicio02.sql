@@ -150,3 +150,13 @@ DELIMITER ;
 -- Se um título foi recuperado com sucesso, selecionamos o título na saída da procedure.
 -- Finalmente, fechamos o cursor para liberar recursos.
 -- Esses comentários explicam o funcionamento da procedure, destacando as principais etapas e decisões tomadas durante a sua execução. Isso torna mais fácil para outros desenvolvedores entenderem e trabalharem com a stored procedure sp_LivrosPorCategoria.
+DELIMITER //
+CREATE PROCEDURE sp_LivrosESeusAutores()
+BEGIN
+    SELECT Livro.Titulo, CONCAT(Autor.Nome, ' ', Autor.Sobrenome) AS 'Nome do Autor'
+    FROM Livro
+    INNER JOIN Autor_Livro ON Livro.Livro_ID = Autor_Livro.Livro_ID
+    INNER JOIN Autor ON Autor_Livro.Autor_ID = Autor.Autor_ID;
+END //
+DELIMITER ;
+CALL sp_LivrosESeusAutores();
