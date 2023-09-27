@@ -109,3 +109,44 @@ END //
 DELIMITER ;
 CALL sp_AutorMaisAntigo(@nome_autor);
 SELECT @nome_autor;
+
+DELIMITER //
+CREATE PROCEDURE sp_LivrosPorCategoria(IN categoriaNome VARCHAR(100))
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE titulo VARCHAR(255);
+
+    DECLARE cur CURSOR FOR
+    SELECT Livro.Titulo
+    FROM Livro
+    INNER JOIN Categoria ON Livro.Categoria_ID = Categoria.Categoria_ID
+    WHERE Categoria.Nome = categoriaNome;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cur;
+
+    read_loop: LOOP
+        FETCH cur INTO titulo;
+
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+
+        SELECT titulo;
+    END LOOP;
+
+    CLOSE cur;
+END //
+DELIMITER ;
+-- Nesta stored procedure:
+
+-- Declaramos um cursor chamado cur para percorrer os resultados da consulta.
+-- Usamos um cursor para selecionar os títulos dos livros de uma categoria específica, que é passada como um parâmetro de entrada para a procedure.
+-- Definimos um manipulador para tratar a condição "NOT FOUND", que é acionada quando não há mais registros para recuperar do cursor.
+-- Abrimos o cursor para iniciar a iteração pelos resultados.
+-- Iniciamos um loop (read_loop) para percorrer os registros retornados pelo cursor.
+-- Dentro do loop, tentamos buscar um título do cursor e verificamos se todos os registros foram lidos. Se todos os registros foram lidos, saímos do loop.
+-- Se um título foi recuperado com sucesso, selecionamos o título na saída da procedure.
+-- Finalmente, fechamos o cursor para liberar recursos.
+-- Esses comentários explicam o funcionamento da procedure, destacando as principais etapas e decisões tomadas durante a sua execução. Isso torna mais fácil para outros desenvolvedores entenderem e trabalharem com a stored procedure sp_LivrosPorCategoria.
