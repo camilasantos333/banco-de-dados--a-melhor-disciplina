@@ -46,3 +46,12 @@ END //
 DELIMITER ;
 CALL sp_VerificarLivrosCategoria('Ficcão Científica', @resultado);
 SELECT @resultado;
+DELIMITER //
+CREATE PROCEDURE sp_LivrosAteAno(IN ano_limite INT)
+BEGIN
+    SELECT Titulo, Ano_Publicacao
+    FROM Livro
+    WHERE Ano_Publicacao <= ano_limite;
+END //
+DELIMITER ;
+CALL sp_LivrosAteAno(2012);
