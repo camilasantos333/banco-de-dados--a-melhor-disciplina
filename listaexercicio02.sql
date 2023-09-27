@@ -76,3 +76,26 @@ BEGIN
 END //
 DELIMITER ;
 CALL sp_TitulosPorCategoria('Ficção Científica');
+DELIMITER //
+CREATE PROCEDURE sp_AdicionarLivro(
+    IN titulo_livro VARCHAR(255),
+    IN editora_id INT,
+    IN ano_publicacao INT,
+    IN numero_paginas INT,
+    IN categoria_id INT,
+    OUT mensagem VARCHAR(255)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR 1062
+    BEGIN
+        SET mensagem = 'Erro. O livro já existe';
+    END;
+    INSERT INTO Livro (Titulo, Editora_ID, Ano_Publicacao, Numero_Paginas, Categoria_ID)
+    VALUES (titulo_livro, editora_id, ano_publicacao, numero_paginas, categoria_id);
+    SET mensagem = 'Novo livro adicionado.';
+END //
+DELIMITER ;
+CALL sp_AdicionarLivro('A Mente Poderosa', 2, 2020, 280, 5, @mensagem);
+SELECT @mensagem;
+CALL sp_AdicionarLivro('New book', 2, 2022, 300, 2, @mensagem);
+SELECT @mensagem;
