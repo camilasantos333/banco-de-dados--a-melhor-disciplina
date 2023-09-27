@@ -99,3 +99,13 @@ CALL sp_AdicionarLivro('A Mente Poderosa', 2, 2020, 280, 5, @mensagem);
 SELECT @mensagem;
 CALL sp_AdicionarLivro('New book', 2, 2022, 300, 2, @mensagem);
 SELECT @mensagem;
+DELIMITER //
+CREATE PROCEDURE sp_AutorMaisAntigo(OUT nome_autor VARCHAR(255))
+BEGIN
+    SELECT CONCAT(Nome, ' ', Sobrenome) INTO nome_autor
+    FROM Autor
+    WHERE Data_Nascimento = (SELECT MIN(Data_Nascimento) FROM Autor);
+END //
+DELIMITER ;
+CALL sp_AutorMaisAntigo(@nome_autor);
+SELECT @nome_autor;
