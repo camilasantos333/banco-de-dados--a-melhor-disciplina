@@ -9,3 +9,6 @@ VALUES ('Roberta'),
 
 SELECT UPPER(nome)
 FROM nomes;
+
+SELECT nome, 
+LENGTH(nome) as tamanho FROM nomes;
