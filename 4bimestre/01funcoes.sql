@@ -6,3 +6,6 @@ VALUES ('Roberta'),
        ('Roberto'), 
        ('Maria Clara'), 
        ('João');
+
+SELECT UPPER(nome)
+FROM nomes;
