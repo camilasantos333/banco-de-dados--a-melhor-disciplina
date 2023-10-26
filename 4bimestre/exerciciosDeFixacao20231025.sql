@@ -31,3 +31,20 @@ BEGIN
 END;
 //
 DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER decrementa_estoque
+AFTER INSERT ON Pedidos
+FOR EACH ROW
+BEGIN
+    UPDATE Produtos
+    SET estoque = estoque - NEW.quantidade
+    WHERE id = NEW.produto_id;
+    
+    IF (SELECT estoque FROM Produtos WHERE id = NEW.produto_id) < 5 THEN
+        INSERT INTO Auditoria (mensagem) 
+        VALUES (CONCAT('O estoque do produto', (SELECT nome FROM Produtos WHERE id = NEW.produto_id), ' está abaixo de 5 unidades, dia ', NOW()));
+    END IF;
+END;
+//
+DELIMITER ;
